@@ -1,24 +1,29 @@
 pipeline {
     agent any
-
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java'
+    }
     stages {
-        stage("Build") {
+        stage('Build') {
             steps {
-                sh "mvn compile"
+                sh 'mvn compile'
             }
         }
-
-        stage("Test") {
+        stage('Test') {
             steps {
-                wrap([$class: "Xvfb", debug: true, displayName: 22, displayNameOffset: 0, timeout: 10 autoDisplayName: true]) {
-                    sh "mvn test"
+                wrap([$class: 'Xvfb', debug: true, displayName: 31, displayNameOffset: 0, timeout: 10]) {
+                    sh 'mvn test'
                 }
             }
         }
-
-        stage("Publish") {
+        stage('Report') {
             steps {
-                testNG()
+                step([$class: 'Publisher'])
+            }
+        }
+        stage('Post_Actions') {
+            steps {
+                echo 'Tests finished'
             }
         }
     }
