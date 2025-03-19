@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Post_Actions') {
             steps {
-                echo 'Tests finished'
+                echo 'Tests finished succesfully'
             }
         }
     }
